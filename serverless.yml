@@ -1,0 +1,34 @@
+---
+
+service: sls-test
+
+package:
+  individually: true
+  exclude:
+    - "*/**"
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: eu-west-1
+  role: role
+
+functions:
+
+  my_function:
+    # module: functions/my_function
+    handler: handler.lambda_handler
+    package:
+      include:
+        - functions/my_function/**
+        - functions/common/**
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    slim: true
+    zip: true
+    dockerizePip: non-linux
